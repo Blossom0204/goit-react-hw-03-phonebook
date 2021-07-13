@@ -11,7 +11,19 @@ class App extends Component {
     contacts: contacts,
     filter: '',
   }
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'))
 
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
   formSubmitHandle = ({ name, number }) => {
     const { contacts } = this.state
     const entry = {
@@ -46,19 +58,6 @@ class App extends Component {
         (contact) => contact.id !== contactId,
       ),
     }))
-  }
-  componentDidMount() {
-    const parsedContacts = JSON.parse(localStorage.getItem('contacts'))
-
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts })
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-    }
   }
 
   render() {
