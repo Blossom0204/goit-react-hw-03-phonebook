@@ -11,20 +11,20 @@ class App extends Component {
     contacts: contacts,
     filter: '',
   }
+
   componentDidMount() {
     const contacts = localStorage.getItem('contacts')
-    const parseContacts = JSON.parse(contacts)
-
-    if (parseContacts) {
-      this.setState({ contacts: parseContacts })
+    if (contacts) {
+      this.setState({ contacts: JSON.parse(contacts) })
     }
   }
-
   componentDidUpdate(prevProps, prevState) {
-    if (this.state !== prevState) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    const { contacts } = this.state
+    if (contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts))
     }
   }
+
   formSubmitHandle = ({ name, number }) => {
     const { contacts } = this.state
     const entry = {
